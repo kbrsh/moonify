@@ -8,7 +8,6 @@ var util = require("./src/util.js");
 var generateId = require("./src/id.js");
 var addClass = require("./src/addClass.js");
 var scopeStyle = require("./src/scopeStyle.js");
-module.exports.insert = require("./src/insert.js");
 
 module.exports = function(file) {
     var base = path.basename(file);
@@ -59,7 +58,7 @@ module.exports = function(file) {
             style.innerHTML = scopeStyle(style.innerHTML, scopeClass);
           }
 
-          code += `var insert = require('moonify/insert');\nvar removeStyle = insert(id, "${style.innerHTML}");\n`;
+          code += `var insert = require('moonify/src/insert');\nvar removeStyle = insert(id, "${style.innerHTML}");\n`;
         }
 
         if(script) {
