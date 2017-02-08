@@ -1,6 +1,6 @@
 {
   "name": "moonify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Transform for compiling Moon Single File Components",
   "main": "index.js",
   "scripts": {
