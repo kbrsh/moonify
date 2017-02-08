@@ -58,7 +58,7 @@ module.exports = function(file) {
             style.innerHTML = scopeStyle(style.innerHTML, scopeClass);
           }
 
-          code += `var insert = require('moonify/src/insert');\nvar removeStyle = insert(id, "${style.innerHTML}");\n`;
+          code += `var insert = require('moonify/src/insert');\nvar removeStyle = insert(id, ${JSON.stringify(style.innerHTML)});\n`;
         }
 
         if(script) {
