@@ -12,6 +12,9 @@ module.exports.reload = function(name, opts) {
     var instance = instances[i];
     var newInstace = new newCtor();
     Moon.util.extend(instance, newInstace);
+    var newEl = document.createElement(instance.$el.nodeName.toLowerCase());
+    instance.$el.parentNode.replaceChild(newEl, instance.$el);
+    instance.$el = newEl;
     instance.build();
   }
 }
