@@ -36,7 +36,7 @@ module.exports = function(file) {
 
     var flush = function(next) {
       var stream = this;
-      code += `var id = "${scopeClass}";\nvar __moon__options__ = {};\n`;
+      code += `var Moon; var componentName = "${componentName}"; var scopeId = "${scopeClass}";\nvar __moon__options__ = {};\n`;
 
       jsdom.env(input, function(err, window) {
         var template = window.document.querySelector("template");
@@ -58,7 +58,7 @@ module.exports = function(file) {
             style.innerHTML = scopeStyle(style.innerHTML, scopeClass);
           }
 
-          code += `var insert = require('moonify/src/insert');\nvar removeStyle = insert(id, ${JSON.stringify(style.innerHTML)});\n`;
+          code += `var insert = require('moonify/src/insert');\nvar removeStyle = insert(scopeId, ${JSON.stringify(style.innerHTML)});\n`;
         }
 
         if(script) {
@@ -86,7 +86,31 @@ module.exports = function(file) {
           code += `__moon__options__.render = ${render};\n`;
         }
 
-        code += `module.exports = function(Moon) {return Moon.component("${componentName}", __moon__options__);}`;
+        if(config.env !== "production") {
+          code += `var hotReload = require("./moon-hot-reload");
+          if(module.hot) {
+            module.hot.accept();
+            if(module.hot.data) {
+              hotReload.install(require("moonjs"));
+              hotReload.reload(componentName, __moon__options__);
+            }
+            module.hot.dispose(removeStyle);
+          };
+          function Component() {
+            var componentCtor = Moon.component(componentName, __moon__options__);
+            var componentInstance = new componentCtor();
+            if(!window.__MOON_HOT_RELOAD_MAP__[componentName]) {
+              window.__MOON_HOT_RELOAD_MAP__[componentName] = [componentInstance];
+            } else {
+              window.__MOON_HOT_RELOAD_MAP__[componentName].push(componentInstance);
+            }
+            return componentInstance;
+          };
+          module.exports = function(moon) {Moon = moon; return Component;}`;
+        } else {
+          code += `module.exports = Moon.component(componentName, __moon__options__);`;
+        }
+
         stream.push(code);
         next();
       });
