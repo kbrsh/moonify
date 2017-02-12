@@ -108,7 +108,7 @@ module.exports = function(file) {
           };
           module.exports = function(moon) {Moon = moon; return Component;}`;
         } else {
-          code += `module.exports = Moon.component(componentName, __moon__options__);`;
+          code += `module.exports = function(moon) {Moon = moon; return Moon.component(componentName, __moon__options__);}`;
         }
 
         stream.push(code);
