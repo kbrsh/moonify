@@ -58,7 +58,7 @@ module.exports = function(file) {
             style.innerHTML = scopeStyle(style.innerHTML, scopeClass);
           }
 
-          code += `var insert = require('./src/insert');\nvar removeStyle = insert(scopeId, ${JSON.stringify(style.innerHTML)});\n`;
+          code += `var insert = require('moonify/src/insert');\nvar removeStyle = insert(scopeId, ${JSON.stringify(style.innerHTML)});\n`;
         }
 
         if(script) {
@@ -87,7 +87,7 @@ module.exports = function(file) {
         }
 
         if(config.env !== "production") {
-          code += `var hotReload = require("./src/hot-reload");
+          code += `var hotReload = require("moonify/src/hot-reload");
           if(module.hot) {
             module.hot.accept();
             if(module.hot.data) {
