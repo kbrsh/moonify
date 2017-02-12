@@ -36,7 +36,7 @@ module.exports = function(file) {
 
     var flush = function(next) {
       var stream = this;
-      code += `var Moon = require('moonjs');\nvar id = "${scopeClass}";\nvar __moon__options__ = {};\n`;
+      code += `var id = "${scopeClass}";\nvar __moon__options__ = {};\n`;
 
       jsdom.env(input, function(err, window) {
         var template = window.document.querySelector("template");
@@ -86,7 +86,7 @@ module.exports = function(file) {
           code += `__moon__options__.render = ${render};\n`;
         }
 
-        code += `module.exports = Moon.component("${componentName}", __moon__options__);`;
+        code += `module.exports = function(Moon) {return Moon.component("${componentName}", __moon__options__);}`;
         stream.push(code);
         next();
       });
