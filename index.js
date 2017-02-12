@@ -68,7 +68,7 @@ module.exports = function(file) {
             script.innerHTML = config.compilers[lang](script.innerHTML);
           }
           if(isProduction) {
-
+            script.innerHTML = require("uglify-js").minify(script.innerHTML, {fromString: true}).code;
           }
           code += `__moon__options__ = (function(exports) {${script.innerHTML} return exports;})({});`;
         }
@@ -90,7 +90,7 @@ module.exports = function(file) {
           code += `__moon__options__.render = ${render};\n`;
         }
 
-        if(isProduction) {
+        if(!isProduction) {
           code += `var hotReload = require("moonify/src/hot-reload");
           if(module.hot) {
             module.hot.accept();
