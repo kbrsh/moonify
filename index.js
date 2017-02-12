@@ -66,7 +66,7 @@ module.exports = function(file) {
           if(lang) {
             script.innerHTML = config.compilers[lang](script.innerHTML);
           }
-          code += `(function(exports) {${script.innerHTML}})(__moon__options__);`;
+          code += `__moon__options__ = (function(exports) {${script.innerHTML} return exports;})({});`;
         }
 
         if(template) {
