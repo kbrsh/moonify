@@ -42,6 +42,7 @@ module.exports = function(file) {
         var template = window.document.querySelector("template");
         var script = window.document.querySelector("script");
         var style = window.document.querySelector("style");
+        var isProduction = config.env !== "development";
         var scoped = null;
 
         if(style) {
@@ -66,6 +67,9 @@ module.exports = function(file) {
           if(lang) {
             script.innerHTML = config.compilers[lang](script.innerHTML);
           }
+          if(isProduction) {
+
+          }
           code += `__moon__options__ = (function(exports) {${script.innerHTML} return exports;})({});`;
         }
 
@@ -86,7 +90,7 @@ module.exports = function(file) {
           code += `__moon__options__.render = ${render};\n`;
         }
 
-        if(config.env !== "production") {
+        if(isProduction) {
           code += `var hotReload = require("moonify/src/hot-reload");
           if(module.hot) {
             module.hot.accept();
