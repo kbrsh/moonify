@@ -67,9 +67,6 @@ module.exports = function(file) {
           if(lang) {
             script.innerHTML = config.compilers[lang](script.innerHTML);
           }
-          if(isProduction) {
-            script.innerHTML = require("uglify-js").minify(script.innerHTML, {fromString: true}).code;
-          }
           code += `__moon__options__ = (function(exports) {${script.innerHTML} return exports;})({});`;
         }
 
@@ -117,6 +114,10 @@ module.exports = function(file) {
         // }
 
         code += `module.exports = function(Moon) {return Moon.component(componentName, __moon__options__);}`;
+
+        if(isProduction) {
+          code = require("uglify-js").minify(code, {fromString: true}).code;
+        }
 
         stream.push(code);
         next();
