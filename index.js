@@ -36,7 +36,7 @@ module.exports = function(file) {
 
     var flush = function(next) {
       var stream = this;
-      code += `var Moon; var componentName = "${componentName}"; var scopeId = "${scopeClass}";\nvar __moon__options__ = {};\n`;
+      code += `var componentName = "${componentName}"; var scopeId = "${scopeClass}";\nvar __moon__options__ = {};\n`;
 
       jsdom.env(input, function(err, window) {
         var template = window.document.querySelector("template");
@@ -90,30 +90,33 @@ module.exports = function(file) {
           code += `__moon__options__.render = ${render};\n`;
         }
 
-        if(!isProduction) {
-          code += `var hotReload = require("moonify/src/hot-reload");
-          if(module.hot) {
-            module.hot.accept();
-            if(module.hot.data) {
-              hotReload.install(require("moonjs"));
-              hotReload.reload(componentName, __moon__options__);
-            }
-            module.hot.dispose(removeStyle);
-          };
-          function Component() {
-            var componentCtor = Moon.component(componentName, __moon__options__);
-            var componentInstance = new componentCtor();
-            if(!window.__MOON_HOT_RELOAD_MAP__[componentName]) {
-              window.__MOON_HOT_RELOAD_MAP__[componentName] = [componentInstance];
-            } else {
-              window.__MOON_HOT_RELOAD_MAP__[componentName].push(componentInstance);
-            }
-            return componentInstance;
-          };
-          module.exports = function(moon) {Moon = moon; return Component;}`;
-        } else {
-          code += `module.exports = function(moon) {Moon = moon; return Moon.component(componentName, __moon__options__);}`;
-        }
+        // if(!isProduction) {
+        //   code += `var hotReload = require("moonify/src/hot-reload");
+        //   if(module.hot) {
+        //     module.hot.accept();
+        //     if(module.hot.data) {
+        //       hotReload.install(require("moonjs"));
+        //       hotReload.reload(componentName, __moon__options__);
+        //     }
+        //     module.hot.dispose(removeStyle);
+        //   };
+        //
+        //   module.exports = function(Moon) {
+        //     if(!__moon__options__.hooks) __moon__options__.hooks = {};
+        //     __moon__options__.hooks.init = function() {
+        //       if(!window.__MOON_HOT_RELOAD_MAP__[componentName]) {
+        //         window.__MOON_HOT_RELOAD_MAP__[componentName] = [this];
+        //       } else {
+        //         window.__MOON_HOT_RELOAD_MAP__[componentName].push(this);
+        //       }
+        //     }
+        //     return Moon.component(componentName, __moon__options__);
+        //   }`;
+        // } else {
+        //   code += `module.exports = function(Moon) {return Moon.component(componentName, __moon__options__);}`;
+        // }
+
+        code += `module.exports = function(Moon) {return Moon.component(componentName, __moon__options__);}`;
 
         stream.push(code);
         next();
