@@ -108,7 +108,7 @@ module.exports = function(file) {
     }
 
     var stream = through(main, flush);
-    stream.moonify = true;
+    stream.moonify = config;
 
     return stream;
 };

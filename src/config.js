@@ -17,5 +17,6 @@ module.exports = {
       return babel.transform(str, babelOptions).code;
     }
   },
-  env: "development"
+  env: "development",
+  extractCSS: "build.css"
 }
