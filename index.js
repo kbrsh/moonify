@@ -45,6 +45,7 @@ module.exports = function(file) {
         var isProduction = config.env !== "development";
         var scoped = null;
 
+        // Compile style tag
         if(style) {
           var lang = style.getAttribute("lang");
           scoped = style.getAttribute("scoped") !== null;
@@ -59,9 +60,14 @@ module.exports = function(file) {
             style.innerHTML = scopeStyle(style.innerHTML, scopeClass);
           }
 
-          code += `var insert = require('moonify/src/insert');\nvar removeStyle = insert(scopeId, ${JSON.stringify(style.innerHTML)});\n`;
+          if(isProduction) {
+            stream.emit('moonify-style', style.innerHTML);
+          } else {
+            code += `var insert = require('moonify/src/insert');\nvar removeStyle = insert(scopeId, ${JSON.stringify(style.innerHTML)});\n`;
+          }
         }
 
+        // Compile options
         if(script) {
           var lang = script.getAttribute("lang");
           if(lang) {
@@ -70,6 +76,7 @@ module.exports = function(file) {
           code += `__moon__options__ = (function(exports) {${script.innerHTML} return exports;})({});`;
         }
 
+        // Compile a template
         if(template) {
           var lang = template.getAttribute("lang");
           if(lang) {
@@ -87,34 +94,10 @@ module.exports = function(file) {
           code += `__moon__options__.render = ${render};\n`;
         }
 
-        // if(!isProduction) {
-        //   code += `var hotReload = require("moonify/src/hot-reload");
-        //   if(module.hot) {
-        //     module.hot.accept();
-        //     if(module.hot.data) {
-        //       hotReload.install(require("moonjs"));
-        //       hotReload.reload(componentName, __moon__options__);
-        //     }
-        //     module.hot.dispose(removeStyle);
-        //   };
-        //
-        //   module.exports = function(Moon) {
-        //     if(!__moon__options__.hooks) __moon__options__.hooks = {};
-        //     __moon__options__.hooks.init = function() {
-        //       if(!window.__MOON_HOT_RELOAD_MAP__[componentName]) {
-        //         window.__MOON_HOT_RELOAD_MAP__[componentName] = [this];
-        //       } else {
-        //         window.__MOON_HOT_RELOAD_MAP__[componentName].push(this);
-        //       }
-        //     }
-        //     return Moon.component(componentName, __moon__options__);
-        //   }`;
-        // } else {
-        //   code += `module.exports = function(Moon) {return Moon.component(componentName, __moon__options__);}`;
-        // }
-
+        // Export the component
         code += `module.exports = function(Moon) {return Moon.component(componentName, __moon__options__);}`;
 
+        // Minify all code, if in production
         if(isProduction) {
           code = require("uglify-js").minify(code, {fromString: true}).code;
         }
@@ -124,5 +107,8 @@ module.exports = function(file) {
       });
     }
 
-    return through(main, flush);
+    var stream = through(main, flush);
+    stream.moonify = true;
+
+    return stream;
 };
