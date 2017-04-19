@@ -42,7 +42,7 @@ module.exports = function(file) {
         var template = window.document.querySelector("template");
         var script = window.document.querySelector("script");
         var style = window.document.querySelector("style");
-        var isProduction = config.env !== "development";
+        var isProduction = config.env === "production";
         var scoped = null;
 
         // Compile style tag
