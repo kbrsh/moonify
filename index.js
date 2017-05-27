@@ -37,7 +37,11 @@ module.exports = function(file) {
 
       const style = compiled.style;
       let code = compiled.component;
-      
+
+      if(isDevelopment === false && style !== undefined) {
+        stream.emit('moonify-style', style);
+      }
+
       stream.push(code);
       next();
     }
