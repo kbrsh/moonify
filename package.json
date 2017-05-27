@@ -25,8 +25,7 @@
   },
   "homepage": "https://github.com/KingPixil/moonify#readme",
   "dependencies": {
-    "jsdom": "^9.10.0",
-    "moonjs": "latest",
+    "moon-component-compiler": "KingPixil/moon-component-compiler",
     "through2": "^2.0.3"
   },
   "devDependencies": {
