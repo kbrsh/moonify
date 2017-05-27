@@ -1,11 +1,8 @@
 {
   "name": "moonify",
-  "version": "0.0.12",
-  "description": "Transform for compiling Moon Single File Components",
+  "version": "0.0.13",
+  "description": "Browserify Transform for compiling Moon Single File Components",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KingPixil/moonify.git"
@@ -25,7 +22,7 @@
   },
   "homepage": "https://github.com/KingPixil/moonify#readme",
   "dependencies": {
-    "moon-component-compiler": "KingPixil/moon-component-compiler",
+    "moon-component-compiler": "0.0.1",
     "through2": "^2.0.3"
   },
   "devDependencies": {
