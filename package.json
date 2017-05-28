@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/KingPixil/moonify#readme",
   "dependencies": {
-    "moon-component-compiler": "0.0.1",
+    "moon-component-compiler": "0.0.2",
     "through2": "^2.0.3"
   },
   "devDependencies": {
