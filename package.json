@@ -1,6 +1,6 @@
 {
   "name": "moonify",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Browserify Transform for compiling Moon Single File Components",
   "main": "index.js",
   "repository": {
