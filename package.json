@@ -24,8 +24,5 @@
   "dependencies": {
     "moon-component-compiler": "latest",
     "through2": "^2.0.3"
-  },
-  "devDependencies": {
-    "release": "^1.1.5"
   }
 }
