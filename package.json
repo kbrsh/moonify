@@ -1,11 +1,11 @@
 {
   "name": "moonify",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "description": "Browserify Transform for compiling Moon Single File Components",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KingPixil/moonify.git"
+    "url": "git+https://github.com/kbrsh/moonify.git"
   },
   "keywords": [
     "moonify",
@@ -18,9 +18,9 @@
   "author": "Kabir Shah",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/KingPixil/moonify/issues"
+    "url": "https://github.com/kbrsh/moonify/issues"
   },
-  "homepage": "https://github.com/KingPixil/moonify#readme",
+  "homepage": "https://github.com/kbrsh/moonify#readme",
   "dependencies": {
     "moon-component-compiler": "latest",
     "through2": "^2.0.3"
